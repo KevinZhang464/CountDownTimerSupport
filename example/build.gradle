@@ -20,7 +20,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:' + rootProject.ext.android.supportVersion
-    implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.android.supportVersion
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation project(':count-down-timer')
 }
