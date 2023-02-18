@@ -1,131 +1,125 @@
 package in.xiandan.countdowntimer.example;
 
+import static java.util.Locale.ENGLISH;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import in.xiandan.countdowntimer.CountDownTimerSupport;
-import in.xiandan.countdowntimer.OnCountDownTimerListener;
 import in.xiandan.countdowntimer.TimerState;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tv;
-    TextView tv_state;
-    EditText ed_future;
-    EditText ed_interval;
+    AppCompatButton btnMinus0;
+    AppCompatButton btnMinus1;
+    AppCompatButton btnMinus2;
+    AppCompatButton btnMinus3;
+    AppCompatEditText etMinus;
 
+    AppCompatButton btnSeconds0;
+    AppCompatButton btnSeconds1;
+    AppCompatButton btnSeconds2;
+    AppCompatButton btnSeconds3;
+    AppCompatEditText etSeconds;
+
+    private int mMinus = 45;
+    private int mSeconds = 0;
     private CountDownTimerSupport mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv = (TextView) findViewById(R.id.tv);
-        tv_state = (TextView) findViewById(R.id.tv_state);
-        ed_future = (EditText) findViewById(R.id.ed_future);
-        ed_interval = (EditText) findViewById(R.id.ed_interval);
+        btnMinus0 = (AppCompatButton) findViewById(R.id.btnMinus0);
+        btnMinus1 = (AppCompatButton) findViewById(R.id.btnMinus1);
+        btnMinus2 = (AppCompatButton) findViewById(R.id.btnMinus2);
+        btnMinus3 = (AppCompatButton) findViewById(R.id.btnMinus3);
+        etMinus = (AppCompatEditText) findViewById(R.id.etMinus);
+
+        btnSeconds0 = (AppCompatButton) findViewById(R.id.btnSeconds0);
+        btnSeconds1 = (AppCompatButton) findViewById(R.id.btnSeconds1);
+        btnSeconds2 = (AppCompatButton) findViewById(R.id.btnSeconds2);
+        btnSeconds3 = (AppCompatButton) findViewById(R.id.btnSeconds3);
+        etSeconds = (AppCompatEditText) findViewById(R.id.etSeconds);
+        refreshMatchTime();
     }
 
-    public void clickStart(View v) {
-        if (mTimer != null) {
-            mTimer.stop();
-            mTimer = null;
-        }
-        long millisInFuture = Long.parseLong(ed_future.getText().toString());
-        long countDownInterval = Long.parseLong(ed_interval.getText().toString());
-        mTimer = new CountDownTimerSupport(millisInFuture, countDownInterval);
-        mTimer.setOnCountDownTimerListener(new OnCountDownTimerListener() {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tv.setText(millisUntilFinished + "ms\n" + millisUntilFinished / 1000 + "s");
-                Log.d("CountDownTimerSupport", "onTick : " + millisUntilFinished + "ms");
-            }
-
-            @Override
-            public void onFinish() {
-                tv.setText("倒计时已结束");
-                Log.d("CountDownTimerSupport", "onFinish");
-
-                tv_state.setText(getStateText());
-            }
-
-            @Override
-            public void onCancel() {
-                tv.setText("倒计时已手动停止");
-                Log.d("CountDownTimerSupport", "onCancel");
-
-                tv_state.setText(getStateText());
-            }
-        });
-        mTimer.start();
-        tv_state.setText(getStateText());
+    public void minusAdd10(View v) {
+        mMinus = Math.min(45, mMinus + 10);
+        refreshMatchTime();
     }
 
-    public void clickPause(View v) {
-        if (mTimer != null) {
-            mTimer.pause();
-
-            tv_state.setText(getStateText());
-        }
+    public void minusAdd1(View v) {
+        mMinus = Math.min(45, mMinus + 1);
+        refreshMatchTime();
     }
 
-    public void clickResume(View v) {
-        if (mTimer != null) {
-            mTimer.resume();
-
-            tv_state.setText(getStateText());
-        }
+    public void minusRemove1(View v) {
+        mMinus = Math.max(5, mMinus - 1);
+        refreshMatchTime();
     }
 
-    public void clickCancel(View v) {
-        if (mTimer != null) {
-            mTimer.stop();
-        }
+    public void minusRemove10(View v) {
+        mMinus = Math.max(5, mMinus - 10);
+        refreshMatchTime();
+    }
+
+    public void secondsAdd10(View v) {
+        mSeconds = Math.min(59, mSeconds + 10);
+        refreshMatchTime();
+    }
+
+    public void secondsAdd1(View v) {
+        mSeconds = Math.min(59, mSeconds + 1);
+        refreshMatchTime();
+    }
+
+    public void secondsRemove1(View v) {
+        mSeconds = Math.max(0, mSeconds - 1);
+        refreshMatchTime();
+    }
+
+    public void secondsRemove10(View v) {
+        mSeconds = Math.max(0, mSeconds - 10);
+        refreshMatchTime();
+    }
+
+    private void refreshMatchTime() {
+        etMinus.setText(String.valueOf(mMinus));
+        etSeconds.setText(String.format(ENGLISH, "%02d", mSeconds));
     }
 
     public void clickResetStart(View v) {
-        if (mTimer != null) {
-            mTimer.reset();
-            mTimer.start();
-
-            tv_state.setText(getStateText());
-        }
+        mMinus = 45;
+        mSeconds = 0;
+        refreshMatchTime();
     }
 
     public void clickList(View v) {
-        startActivity(new Intent(this, RecyclerViewActivity.class));
+        Intent intent = new Intent(this, RecyclerViewActivity.class);
+        intent.putExtra(RecyclerViewActivity.MapTypeKey, MapType.Desert);
+        intent.putExtra(RecyclerViewActivity.MinKey, mMinus);
+        intent.putExtra(RecyclerViewActivity.SecKey, mSeconds);
+        startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mTimer != null) {
-            mTimer.resume();
-            tv_state.setText(getStateText());
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mTimer != null) {
-            mTimer.pause();
-            tv_state.setText(getStateText());
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mTimer != null) {
-            mTimer.stop();
-            tv_state.setText(getStateText());
-        }
     }
 
     private String getStateText() {

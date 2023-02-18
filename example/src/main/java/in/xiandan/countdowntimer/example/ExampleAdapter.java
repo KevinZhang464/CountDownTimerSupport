@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import in.xiandan.countdowntimer.TimerState;
@@ -19,12 +21,13 @@ import in.xiandan.countdowntimer.TimerState;
  * created 2018/11/9 17:52
  */
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> {
-    private List<TimeInfo> mData;
+    private List<WildMonsterTimeInfo> mData;
     private SimpleDateFormat mDateFormat;
 
-    public ExampleAdapter(List<TimeInfo> data) {
+    public ExampleAdapter(List<WildMonsterTimeInfo> data) {
         this.mData = data;
-        this.mDateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+//        this.mDateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+        this.mDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
         mDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
     }
 
@@ -35,19 +38,19 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final TimeInfo item = mData.get(position);
-        holder.tv_index.setText(String.valueOf(position));
-        holder.tv_duration.setText(String.format("%s：%s", "总时长", mDateFormat.format(item.getDuration())));
+        final WildMonsterTimeInfo item = mData.get(position);
+        holder.tv_index.setText(mDateFormat.format(item.getDuration()));
+        holder.tv_duration.setText(item.getMonstersColorfulDisplay());
         final String remainingTime = mDateFormat.format(item.getRemainingTime());
         if (item.getState() == TimerState.START) {
             holder.tv_timer.setTextColor(holder.itemView.getResources().getColor(R.color.colorAccent));
-            holder.tv_timer.setText(String.format("%s：%s", "正在倒计时", remainingTime));
+            holder.tv_timer.setText(String.format("%s：%s", "黄点倒计时", remainingTime));
         } else if (item.getState() == TimerState.PAUSE) {
             holder.tv_timer.setTextColor(Color.GRAY);
             holder.tv_timer.setText(String.format("%s：%s", "倒计时暂停", remainingTime));
         } else {
             holder.tv_timer.setTextColor(Color.GRAY);
-            holder.tv_timer.setText(String.format("%s：%s", "倒计时已结束", remainingTime));
+            holder.tv_timer.setText(String.format("%s：%s", "黄点已刷新", remainingTime));
         }
     }
 
@@ -56,7 +59,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
         return mData.size();
     }
 
-    public List<TimeInfo> getData() {
+    public List<WildMonsterTimeInfo> getData() {
         return mData;
     }
 
