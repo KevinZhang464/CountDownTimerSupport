@@ -42,6 +42,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
         holder.tv_index.setText(mDateFormat.format(item.getDuration()));
         holder.tv_duration.setText(item.getMonstersColorfulDisplay());
         final String remainingTime = mDateFormat.format(item.getRemainingTime());
+
         if (item.getState() == TimerState.START) {
             holder.tv_timer.setTextColor(holder.itemView.getResources().getColor(R.color.colorAccent));
             holder.tv_timer.setText(String.format("%s：%s", "黄点倒计时", remainingTime));
@@ -51,6 +52,11 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
         } else {
             holder.tv_timer.setTextColor(Color.GRAY);
             holder.tv_timer.setText(String.format("%s：%s", "黄点已刷新", remainingTime));
+        }
+        if (item.getState() == TimerState.FINISH || item.isNotified()) {
+            holder.rl_background.setBackgroundColor(Color.WHITE);
+        } else {
+            holder.rl_background.setBackgroundColor(Color.GRAY);
         }
     }
 
@@ -64,12 +70,15 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
     }
 
     static class Holder extends RecyclerView.ViewHolder {
+
+        private View rl_background;
         private TextView tv_duration;
         private TextView tv_timer;
         private TextView tv_index;
 
         private Holder(View itemView) {
             super(itemView);
+            rl_background = itemView.findViewById(R.id.rlBackground);
             tv_duration = (TextView) itemView.findViewById(R.id.tv_duration);
             tv_timer = (TextView) itemView.findViewById(R.id.tv_timer);
             tv_index = (TextView) itemView.findViewById(R.id.tv_index);
