@@ -19,6 +19,7 @@ import in.xiandan.countdowntimer.TimerState;
 public class WildMonsterTimeInfo {
     private long duration;
     private long remainingTime;
+    private boolean notified = false;
     private TimerState state;
     private List<WildMonster> monsters;
 
@@ -36,6 +37,14 @@ public class WildMonsterTimeInfo {
 
     public void setRemainingTime(long remainingTime) {
         this.remainingTime = remainingTime;
+    }
+
+    public boolean isNotified() {
+        return notified;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
     }
 
     public TimerState getState() {
