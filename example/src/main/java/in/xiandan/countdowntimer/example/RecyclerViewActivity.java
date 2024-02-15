@@ -131,10 +131,14 @@ public class RecyclerViewActivity extends AppCompatActivity {
                     }
                     long newTime = info.getRemainingTime() - 1000;
                     info.setRemainingTime(Math.max(0, newTime));
-                    info.setState(newTime <= 0 ? TimerState.FINISH : TimerState.START);
                     if (!info.isNotified() && newTime <= 10 * 1000) {
                         info.setNotified(true);
-                        notifyNow(info);
+                        RecyclerViewActivity.this.notify(info, false);
+                    }
+                    boolean isFinish = newTime <= 0;
+                    if (isFinish) {
+                        RecyclerViewActivity.this.notify(info, true);
+                        info.setState(TimerState.FINISH);
                     }
                 }
                 tvTime.setText(String.format("比赛倒计时：%s", mDateFormat.format(millisUntilFinished)));
@@ -174,7 +178,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         mTimer.stop();
     }
 
-    private void notifyNow(WildMonsterTimeInfo info) {
+    private void notify(WildMonsterTimeInfo info, boolean isNow) {
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("update", "update", NotificationManager.IMPORTANCE_HIGH);
@@ -184,7 +188,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "update");
+        if (isNow) {
+            builder.setContentTitle("黄点已刷新");
+        } else {
         builder.setContentTitle("黄点即将在10秒后刷新");
+        }
         builder.setContentText(info.getMonstersColorfulDisplay());
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         builder.setAutoCancel(true);
