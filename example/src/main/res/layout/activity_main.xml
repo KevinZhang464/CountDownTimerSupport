@@ -115,13 +115,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="clickResetStart"
-        android:text="初始化" />
+        android:text="时间初始化" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="clickList"
-        android:text="沙漠遗迹" />
+        android:text="流沙遗迹" />
 
     <LinearLayout
         android:layout_width="match_parent"

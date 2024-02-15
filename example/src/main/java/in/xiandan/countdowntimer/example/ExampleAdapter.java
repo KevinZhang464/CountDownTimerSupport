@@ -27,7 +27,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
     public ExampleAdapter(List<WildMonsterTimeInfo> data) {
         this.mData = data;
 //        this.mDateFormat = new SimpleDateFormat("HH:mm:ss.SSS");
-        this.mDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        this.mDateFormat = new SimpleDateFormat("mm:ss", Locale.ENGLISH);
         mDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
     }
 
@@ -53,7 +53,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.Holder> 
             holder.tv_timer.setTextColor(Color.GRAY);
             holder.tv_timer.setText(String.format("%s：%s", "黄点已刷新", remainingTime));
         }
-        if (item.getState() == TimerState.FINISH || item.isNotified()) {
+        if (item.getState() == TimerState.FINISH) {
+            holder.rl_background.setBackgroundColor(Color.BLACK);
+        } else if (item.isNotified()) {
             holder.rl_background.setBackgroundColor(Color.WHITE);
         } else {
             holder.rl_background.setBackgroundColor(Color.GRAY);

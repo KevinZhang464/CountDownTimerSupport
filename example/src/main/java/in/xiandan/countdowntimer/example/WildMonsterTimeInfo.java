@@ -97,7 +97,7 @@ public class WildMonsterTimeInfo {
 
     public SpannableStringBuilder getMonstersColorfulDisplay() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        ForegroundColorSpan yellow = new ForegroundColorSpan(Color.YELLOW);
+        ForegroundColorSpan yellow = new ForegroundColorSpan(Color.rgb(250, 200, 0));
         ForegroundColorSpan red = new ForegroundColorSpan(Color.RED);
         ForegroundColorSpan green = new ForegroundColorSpan(Color.GREEN);
         for (WildMonster wildMonster : getMonsters()) {

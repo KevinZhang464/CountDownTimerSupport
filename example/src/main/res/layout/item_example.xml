@@ -7,20 +7,21 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:textColor="@color/colorPrimary"
         android:id="@+id/tv_index"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
         android:textSize="16sp"
-        tools:text="1" />
+        android:textColor="@color/colorPrimary"
+        tools:text="00:00" />
 
     <RelativeLayout
-        android:layout_toRightOf="@id/tv_index"
+        android:layout_toEndOf="@id/tv_index"
         android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingTop="10dp"
         android:paddingRight="@dimen/activity_vertical_margin"
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            tools:text="11:11" />
+            tools:text="中路黄点刷新" />
 
         <TextView
             android:id="@+id/tv_timer"
@@ -39,12 +40,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_duration"
             android:textColor="@color/colorAccent"
-            tools:text="11:11" />
+            tools:text="倒计时 11:11" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/layout_info"
-        android:background="#eeeeee" />
+        android:background="@android:color/background_dark" />
 </RelativeLayout>
