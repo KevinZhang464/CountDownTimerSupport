@@ -3,7 +3,6 @@ package in.xiandan.countdowntimer.example;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,9 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -108,6 +105,29 @@ public class RecyclerViewActivity extends AppCompatActivity {
                     data.add(halfMinInfo);
                 }
             }
+        } else if (mapType == MapType.Airport) {
+            mapView.setImageResource(R.mipmap.map_airport);
+            for (int i = maxMinutes; i > 0; i--) {
+
+                // half minute
+                int halfMin = i - 1;
+                final int halfMinDuration = (halfMin * 60 + 30) * 1000;
+                List<WildMonster> halfMinMonsters = new ArrayList<>();
+                if (halfMin % 2 == 0 && halfMin <= 44) {
+                    halfMinMonsters.add(WildMonster.SIDE_100);
+                }
+                if (halfMin % 2 == 1 && halfMin <= 43) {
+                    halfMinMonsters.add(WildMonster.HOME_100);
+                }
+                if (halfMinMonsters.size() > 0) {
+                    WildMonsterTimeInfo halfMinInfo = new WildMonsterTimeInfo();
+                    halfMinInfo.setDuration(halfMinDuration);
+                    halfMinInfo.setRemainingTime(totalSeconds - halfMinDuration);
+                    halfMinInfo.setState(TimerState.START);
+                    halfMinInfo.setMonsters(halfMinMonsters);
+                    data.add(halfMinInfo);
+                }
+            }
         }
 
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -191,7 +211,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         if (isNow) {
             builder.setContentTitle("黄点已刷新");
         } else {
-        builder.setContentTitle("黄点即将在10秒后刷新");
+            builder.setContentTitle("黄点即将在10秒后刷新");
         }
         builder.setContentText(info.getMonstersColorfulDisplay());
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);

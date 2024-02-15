@@ -82,6 +82,12 @@ public class WildMonsterTimeInfo {
                 case HOME_80_2:
                     monsterNames.add("家小2");
                     break;
+                case SIDE_100:
+                    monsterNames.add("边小");
+                    break;
+                case HOME_100:
+                    monsterNames.add("家小");
+                    break;
                 default:
                     break;
             }
@@ -121,6 +127,14 @@ public class WildMonsterTimeInfo {
                 case HOME_80_2:
                     SpannableString h80_2 = getColorSpan(green, "家里小黄点2 ");
                     builder.append(h80_2);
+                    break;
+                case SIDE_100:
+                    SpannableString s100 = getColorSpan(yellow, "边路小黄点 ");
+                    builder.append(s100);
+                    break;
+                case HOME_100:
+                    SpannableString h100 = getColorSpan(green, "家里小黄点 ");
+                    builder.append(h100);
                     break;
                 default:
                     break;

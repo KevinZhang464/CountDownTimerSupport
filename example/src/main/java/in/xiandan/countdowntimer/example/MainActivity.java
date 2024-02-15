@@ -107,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void clickAirport(View v) {
+        Intent intent = new Intent(this, RecyclerViewActivity.class);
+        intent.putExtra(RecyclerViewActivity.MapTypeKey, MapType.Airport);
+        intent.putExtra(RecyclerViewActivity.MinKey, mMinus);
+        intent.putExtra(RecyclerViewActivity.SecKey, mSeconds);
+        startActivity(intent);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:keepScreenOn="true"
-        app:layout_constraintDimensionRatio="300:274"
+        app:layout_constraintDimensionRatio="260:200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@mipmap/map_desert" />
+        tools:src="@mipmap/map_airport" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTime"
